@@ -98,9 +98,12 @@ open_alacritty_here <- function() {
 
   if (.Platform$OS.type == "windows") {
     system2("alacritty.exe", c("--working-directory", shQuote(dir)), wait = FALSE)
-  } else if (Sys.info()[["sysname"]] == "Darwin") {
-    system2("open", c("-a", "Alacritty", dir), wait = FALSE)
-  } else if (.Platform$OS.type == "unix") {
+  ## } else if (Sys.info()[["sysname"]] == "Darwin") {
+} else if (Sys.info()[["sysname"]] == "Darwin") {
+  system2("/Applications/Alacritty.app/Contents/MacOS/alacritty",
+          c("--working-directory", shQuote(dir)),
+          wait = FALSE)
+} else if (.Platform$OS.type == "unix") {
     system2("alacritty", c("--working-directory", shQuote(dir)), wait = FALSE)
   } else {
     message("Unsupported system type.")
