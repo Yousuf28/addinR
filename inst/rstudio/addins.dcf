@@ -1,0 +1,57 @@
+
+Name: Replace Backslash with Forwardslash
+Description: Replace '\' with '/' in selected text or entire file
+Binding: replace_backslash_with_forwardslash
+Interactive: false
+
+
+Name: Replace forwardslash with backslash
+Description: Convert / to \ in selected text
+Binding: replace_forwardslash_with_backslash
+Interactive: false
+
+Name: Open current directory in file explorer
+Description: Open working directory in file explorer
+Binding: open_current_directory_in_file_explorer
+Interactive: false
+
+
+
+Name: Open Git Bash Here
+Description: Opens Git Bash terminal in the current working directory (Windows only).
+Binding: open_git_bash_here
+Interactive: false
+
+Name: Open Alacritty Here
+Description: Launch Alacritty terminal in directory of active file or working directory
+Binding: open_alacritty_here
+Interactive: false
+
+
+
+Name: Copy Current File Contents
+Description: Copy entire contents of the active file to clipboard
+Binding: copy_current_file_contents
+Interactive: false
+
+
+Name: Copy All R Files in working directory (Excluding Common Folders)
+Description: Copy all .R files from working directory, skipping renv, .git, data, and similar directories
+Binding: copy_all_r_files_here
+Interactive: false
+
+
+Name: Copy Selected R Files in working directory
+Description: Interactively select which R files from the working directory to copy to clipboard
+Binding: copy_selected_r_files_here
+Interactive: false
+
+Name: Remember Current Directory (Session)
+Description: Save the current file's directory in memory for this session
+Binding: remember_current_directory
+Interactive: false
+
+Name: Return to Remembered Directory (Session)
+Description: Choose a previously remembered directory, set it as working directory, and open it in Files pane
+Binding: return_to_remembered_directory
+Interactive: false
