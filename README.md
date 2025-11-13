@@ -17,11 +17,12 @@ devtools::install_github("Yousuf28/addinR")
 After installation, restart RStudio to access the addins through the **Addins** menu.
 ### Menu
 
-![Addin Menu](.github/menu.png)
+![Available Addins](.github/addin.png)
 
 ### ADDINR
 
-![Available Addins](.github/addin.png)
+
+![Addin Menu](.github/menu.png)
 
 ## What This Package Does
 
