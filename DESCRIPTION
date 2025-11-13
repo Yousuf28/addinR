@@ -1,11 +1,16 @@
 Package: addinR
-Title: What the Package Does (One Line, Title Case)
+Title: RStudio Addins for Enhanced Development Workflow
 Version: 0.0.0.9000
 Authors@R: 
-    person("Yousuf", "Ali", , "mdyousuf.ali@fda.hhs.gov", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Yousuf", "Ali", , "yousuf.pharma@gmail.com", role = c("aut", "cre"))
+Description: A collection of RStudio addins that streamline common development
+    tasks including file management, directory navigation, text manipulation,
+    and terminal integration. Features include path format conversion, batch
+    file content copying, directory memory, and quick terminal access.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Imports: 
+    clipr,
+    rstudioapi

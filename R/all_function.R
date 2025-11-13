@@ -5,23 +5,36 @@
 # Date                     Programmer
 #----------   --------------------------------------------------------------
 # Nov-11-2025    Md Yousuf Ali (MdYousuf.Ali@fda.hhs.gov)
-
 replace_backslash_with_forwardslash <- function() {
-  library(rstudioapi)
+  ## library(rstudioapi)
 
   ctx <- getActiveDocumentContext()
   sel <- ctx$selection[[1]]
 
-  text <- if (nzchar(sel$text)) sel$text else ctx$contents
-  replaced <- gsub("\\\\", "/", text)
-
+  # Only proceed if there is selected text
   if (nzchar(sel$text)) {
+    replaced <- gsub("\\\\", "/", sel$text)
     modifyRange(sel$range, replaced)
-  } else {
-    document_range <- document_range(c(1, 1), c(length(ctx$contents), nchar(tail(ctx$contents, 1)) + 1))
-    modifyRange(document_range, replaced)
   }
+  # If no text is selected, do nothing (no else clause needed)
 }
+
+## replace_backslash_with_forwardslash <- function() {
+##   ## library(rstudioapi)
+
+##   ctx <- getActiveDocumentContext()
+##   sel <- ctx$selection[[1]]
+
+##   text <- if (nzchar(sel$text)) sel$text else ctx$contents
+##   replaced <- gsub("\\\\", "/", text)
+
+##   if (nzchar(sel$text)) {
+##     modifyRange(sel$range, replaced)
+##   } else {
+##     document_range <- document_range(c(1, 1), c(length(ctx$contents), nchar(tail(ctx$contents, 1)) + 1))
+##     modifyRange(document_range, replaced)
+##   }
+## }
 replace_forwardslash_with_backslash <- function() {
   if (!rstudioapi::isAvailable()) {
     message("RStudio API not available.")
