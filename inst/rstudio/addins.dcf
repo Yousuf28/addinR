@@ -1,6 +1,6 @@
 
 Name: Replace Backslash with Forwardslash
-Description: Replace '\' with '/' in selected text or entire file
+Description: Replace '\' with '/' in selected text
 Binding: replace_backslash_with_forwardslash
 Interactive: false
 
@@ -10,7 +10,7 @@ Description: Convert / to \ in selected text
 Binding: replace_forwardslash_with_backslash
 Interactive: false
 
-Name: Open current directory in file explorer
+Name: Open working directory in file explorer
 Description: Open working directory in file explorer
 Binding: open_current_directory_in_file_explorer
 Interactive: false
@@ -35,13 +35,13 @@ Binding: copy_current_file_contents
 Interactive: false
 
 
-Name: Copy All R Files in working directory (Excluding Common Folders)
+Name: Copy Content of All R Files in working directory (Excluding Common Folders)
 Description: Copy all .R files from working directory, skipping renv, .git, data, and similar directories
 Binding: copy_all_r_files_here
 Interactive: false
 
 
-Name: Copy Selected R Files in working directory
+Name: Copy Content of Selected R Files in working directory
 Description: Interactively select which R files from the working directory to copy to clipboard
 Binding: copy_selected_r_files_here
 Interactive: false
