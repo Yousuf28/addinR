@@ -36,8 +36,8 @@ The `addinR` package provides a suite of RStudio addins designed to streamline c
 
 ### **File and Directory Operations**
 - **Open Working Directory in File Explorer**: Quickly access your current working directory in your system's file manager (Windows Explorer, Finder, or Linux file manager)
-- **Copy Current File Contents**: Copy the entire contents of your active R file to the clipboard for easy sharing or backup
-- **Copy All R Files**: Batch copy all R files content from your working directory to clipboard, perfect for sharing project code or creating documentation
+- **Copy Current File Contents**: Copy the entire code/content of your active R file to the clipboard for pasting into chatbot
+- **Copy All R Files**: copy code/content all R files from your working directory to clipboard, perfect for pasting into chatbot
 - **Copy Selected R Files**: Interactively choose which R files content to copy from your working directory
 
 ### **Terminal Integration**
@@ -45,17 +45,8 @@ The `addinR` package provides a suite of RStudio addins designed to streamline c
 - **Open Alacritty Here**: Open Alacritty terminal in your current directory (cross-platform)
 
 ### **Session Directory Management**
-- **Remember Current Directory**: Save frequently used directories during your R session
+- **Remember Current Directory**: Save directories during your R session
 - **Return to Remembered Directory**: Quickly navigate back to previously saved directories and automatically update the Files pane
-
-## Key Benefits
-
-1. **Eliminates Repetitive Tasks**: No more manually typing file paths or navigating through multiple folders
-2. **Cross-Platform Compatibility**: Works on Windows, macOS, and Linux
-3. **Seamless Integration**: All functions are accessible through RStudio's Addins menu and can be assigned keyboard shortcuts
-4. **Productivity Boost**: Reduces context switching between RStudio and external applications
-5. **Code Sharing Made Easy**: Quickly copy and share R code files with colleagues or for documentation
-6. **Enhanced Terminal Workflow**: Direct terminal access from your current working context
 
 ## Usage
 
@@ -64,10 +55,6 @@ After installation, access these tools through:
 - **Assign keyboard shortcuts** via Tools → Modify Keyboard Shortcuts
 - **Command palette** (Ctrl/Cmd + Shift + P)
 
-These addins are particularly valuable for:
-- Data scientists working with multiple file paths
-- Package developers managing complex project structures
-- Analysts sharing code across different operating systems
-- Anyone who frequently switches between RStudio and terminal/file explorer
 
-Transform your RStudio experience with these time-saving utilities that handle the mundane tasks so you can focus on your analysis and development work.
+## Note
+Tested on windows and MacOS but should work on linux.
