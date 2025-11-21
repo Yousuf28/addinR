@@ -10,23 +10,6 @@ Description: Convert / to \ in selected text
 Binding: replace_forwardslash_with_backslash
 Interactive: false
 
-Name: Open working directory in file explorer
-Description: Open working directory in file explorer
-Binding: open_current_directory_in_file_explorer
-Interactive: false
-
-
-
-Name: Open Git Bash Here
-Description: Opens Git Bash terminal in the current working directory (Windows only).
-Binding: open_git_bash_here
-Interactive: false
-
-Name: Open Alacritty Here
-Description: Launch Alacritty terminal in directory of active file or working directory
-Binding: open_alacritty_here
-Interactive: false
-
 
 
 Name: Copy Current File Contents
@@ -54,4 +37,19 @@ Interactive: false
 Name: Return to Remembered Directory (Session)
 Description: Choose a previously remembered directory, set it as working directory, and open it in Files pane
 Binding: return_to_remembered_directory
+Interactive: false
+
+Name: Open working directory in file explorer
+Description: Open working directory in file explorer
+Binding: open_current_directory_in_file_explorer
+Interactive: false
+
+Name: Open Git Bash Here
+Description: Opens Git Bash terminal in the current working directory (Windows only).
+Binding: open_git_bash_here
+Interactive: false
+
+Name: Open Alacritty Here
+Description: Launch Alacritty terminal in directory of active file or working directory
+Binding: open_alacritty_here
 Interactive: false
