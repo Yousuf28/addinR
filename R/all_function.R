@@ -4,37 +4,24 @@
 # -----------------------------------------------------------------------------
 # Date                     Programmer
 #----------   --------------------------------------------------------------
-# Nov-11-2025    Md Yousuf Ali (MdYousuf.Ali@fda.hhs.gov)
-replace_backslash_with_forwardslash <- function() {
-  ## library(rstudioapi)
+# Nov-11-2025    Md Yousuf Ali (yousuf.pharma@gmail.com)
 
-  ctx <- getActiveDocumentContext()
+#' @import rstudioapi
+#' @import clipr
+
+replace_backslash_with_forwardslash <- function() {
+
+  ctx <- rstudioapi::getActiveDocumentContext()
   sel <- ctx$selection[[1]]
 
   # Only proceed if there is selected text
   if (nzchar(sel$text)) {
     replaced <- gsub("\\\\", "/", sel$text)
-    modifyRange(sel$range, replaced)
+    rstudioapi::modifyRange(sel$range, replaced)
   }
   # If no text is selected, do nothing (no else clause needed)
 }
 
-## replace_backslash_with_forwardslash <- function() {
-##   ## library(rstudioapi)
-
-##   ctx <- getActiveDocumentContext()
-##   sel <- ctx$selection[[1]]
-
-##   text <- if (nzchar(sel$text)) sel$text else ctx$contents
-##   replaced <- gsub("\\\\", "/", text)
-
-##   if (nzchar(sel$text)) {
-##     modifyRange(sel$range, replaced)
-##   } else {
-##     document_range <- document_range(c(1, 1), c(length(ctx$contents), nchar(tail(ctx$contents, 1)) + 1))
-##     modifyRange(document_range, replaced)
-##   }
-## }
 replace_forwardslash_with_backslash <- function() {
   if (!rstudioapi::isAvailable()) {
     message("RStudio API not available.")
@@ -98,7 +85,6 @@ open_git_bash_here <- function(dir = getwd()) {
 
 
 open_alacritty_here <- function() {
-  suppressPackageStartupMessages(library(rstudioapi))
 
   dir <- tryCatch(getwd(), error = function(e) NULL)
 
@@ -126,12 +112,9 @@ open_alacritty_here <- function() {
 }
 
 
-
 copy_current_file_contents <- function() {
-  library(rstudioapi)
-  library(clipr)
 
-  ctx <- getActiveDocumentContext()
+  ctx <- rstudioapi::getActiveDocumentContext()
 
   if (is.null(ctx$path) || ctx$path == "") {
     clipr::write_clip(paste(ctx$contents, collapse = "\n"))
@@ -143,12 +126,7 @@ copy_current_file_contents <- function() {
   message("File contents copied to clipboard.")
 }
 
-
-
-
 copy_all_r_files_here <- function(max_files = 100) {
-  suppressPackageStartupMessages(library(clipr))
-
   dir <- getwd()
 
   files <- list.files(dir, pattern = "\\.[Rr]$", full.names = TRUE, recursive = TRUE)
@@ -169,7 +147,7 @@ copy_all_r_files_here <- function(max_files = 100) {
       header <- paste0("# ==== ", basename(f), " ====")
       body <- paste(readLines(f, warn = FALSE), collapse = "\n")
       paste(header, body, sep = "\n")
-    }, error = function(e) paste("# ==== ", basename(f), " ==== (Error reading file)", sep = ""))
+    }, error = function(e) paste0("# ==== ", basename(f), " ==== (Error reading file)"))
   }, character(1))
 
   combined <- paste(content, collapse = "\n\n")
@@ -189,16 +167,12 @@ copy_all_r_files_here <- function(max_files = 100) {
   message(length(files), " R file(s) copied from: ", dir)
   message("Files copied:\n  - ", paste(rel_files, collapse = "\n  - "))
   message("Total characters: ", format(char_count, big.mark = ","),
-          "  |  Approx. tokens: ", format(token_est, big.mark = ","))
+          " | Approx. tokens: ", format(token_est, big.mark = ","))
 }
+
 
 ###
 copy_selected_r_files_here <- function() {
-  suppressPackageStartupMessages({
-    library(rstudioapi)
-    library(clipr)
-  })
-
   dir <- getwd()
   files <- list.files(dir, pattern = "\\.[Rr]$", full.names = TRUE, recursive = TRUE)
 
@@ -210,32 +184,42 @@ copy_selected_r_files_here <- function() {
   rel_files <- normalizePath(files, winslash = "/", mustWork = TRUE)
   rel_files <- gsub(paste0("^", normalizePath(dir, winslash = "/", mustWork = TRUE), "/?"), "", rel_files)
 
-  selected <- tryCatch(
-    rstudioapi::selectFileDialog(
-      title = "Select R files to copy",
-      path = dir,
-      multiple = TRUE
-    ),
-    error = function(e) {
-      cat("Available R files:\n")
-      for (i in seq_along(rel_files)) cat(i, ":", rel_files[i], "\n")
-      input <- readline("Enter indices (comma separated): ")
-      idx <- as.integer(strsplit(input, ",")[[1]])
-      files[idx[!is.na(idx) & idx > 0 & idx <= length(files)]]
+  # Console-based file selection
+  cat("Available R files:\n")
+  for (i in seq_along(rel_files)) {
+    cat(sprintf("%3d: %s\n", i, rel_files[i]))
+  }
+
+  input <- readline("Enter indices (comma separated, or 'all' for all files): ")
+
+  if (tolower(trimws(input)) == "all") {
+    selected <- files
+  } else {
+    idx <- as.integer(unlist(strsplit(gsub("\\s", "", input), ",")))
+    valid_idx <- idx[!is.na(idx) & idx > 0 & idx <= length(files)]
+
+    if (length(valid_idx) == 0) {
+      message("No valid indices selected.")
+      return(invisible(NULL))
     }
-  )
+
+    selected <- files[valid_idx]
+  }
 
   if (length(selected) == 0) {
     message("No files selected.")
     return(invisible(NULL))
   }
 
+  # Read and combine file contents
   content <- vapply(selected, function(f) {
     tryCatch({
       header <- paste0("# ==== ", basename(f), " ====")
       body <- paste(readLines(f, warn = FALSE), collapse = "\n")
       paste(header, body, sep = "\n")
-    }, error = function(e) paste("# ==== ", basename(f), " ==== (Error reading file)", sep = ""))
+    }, error = function(e) {
+      paste0("# ==== ", basename(f), " ==== (Error reading file)")
+    })
   }, character(1))
 
   # Copy to clipboard
@@ -243,8 +227,20 @@ copy_selected_r_files_here <- function() {
     stop("Clipboard not available. Try running inside RStudio or enable system clipboard access.")
   }
 
-  clipr::write_clip(paste(content, collapse = "\n\n"))
+  combined <- paste(content, collapse = "\n\n")
+  clipr::write_clip(combined)
+
+  # Display summary
+  char_count <- nchar(combined)
+  token_est <- ceiling(char_count / 4)
+
+  selected_rel <- gsub(paste0("^", normalizePath(dir, winslash = "/", mustWork = TRUE), "/?"), "",
+                       normalizePath(selected, winslash = "/", mustWork = TRUE))
+
   message(length(selected), " file(s) copied to clipboard from: ", dir)
+  message("Files copied:\n  - ", paste(selected_rel, collapse = "\n  - "))
+  message("Total characters: ", format(char_count, big.mark = ","),
+          " | Approx. tokens: ", format(token_est, big.mark = ","))
 }
 
 
@@ -255,9 +251,8 @@ copy_selected_r_files_here <- function() {
 .session_dirs <- new.env(parent = emptyenv())
 
 remember_current_directory <- function() {
-  library(rstudioapi)
 
-  ctx <- tryCatch(getActiveDocumentContext(), error = function(e) NULL)
+  ctx <- tryCatch(rstudioapi::getActiveDocumentContext(), error = function(e) NULL)
   dir <- if (!is.null(ctx) && nzchar(ctx$path)) dirname(ctx$path) else getwd()
 
   existing <- unlist(as.list(.session_dirs), use.names = FALSE)
@@ -271,9 +266,8 @@ remember_current_directory <- function() {
 }
 
 return_to_remembered_directory <- function() {
-  library(rstudioapi)
-
   dirs <- as.list(.session_dirs)
+
   if (length(dirs) == 0) {
     message("No directories remembered in this session.")
     return(invisible(NULL))
@@ -281,32 +275,38 @@ return_to_remembered_directory <- function() {
 
   choices <- unname(unlist(dirs))
 
-  # Try selectList if available, otherwise fallback to showPrompt
-  if ("selectList" %in% getNamespaceExports("rstudioapi")) {
-    selected <- rstudioapi::selectList(
-      choices = choices,
-      title = "Select a remembered directory",
-      multiple = FALSE
-    )
-  } else {
-    cat("Available remembered directories:\n")
-    for (i in seq_along(choices)) cat(i, ": ", choices[i], "\n")
-    idx <- as.integer(readline("Enter the number of the directory: "))
-    selected <- if (!is.na(idx) && idx >= 1 && idx <= length(choices)) choices[idx] else ""
+  # Console-based directory selection
+  cat("Available remembered directories:\n")
+  for (i in seq_along(choices)) {
+    cat(sprintf("%3d: %s\n", i, choices[i]))
   }
+
+  input <- readline("Enter the number of the directory: ")
+  idx <- as.integer(trimws(input))
+
+  if (is.na(idx) || idx < 1 || idx > length(choices)) {
+    message("Invalid selection. No directory changed.")
+    return(invisible(NULL))
+  }
+
+  selected <- choices[idx]
 
   if (length(selected) == 0 || selected == "") {
     message("No selection made.")
     return(invisible(NULL))
   }
 
+  # Change working directory
   setwd(selected)
+
+  # Try to navigate Files pane in RStudio if available
   tryCatch({
-    rstudioapi::filesPaneNavigate(selected)
+    if (rstudioapi::isAvailable()) {
+      rstudioapi::filesPaneNavigate(selected)
+    }
   }, error = function(e) {
     message("Changed working directory, but could not open Files pane.")
   })
 
   message("Working directory changed to: ", selected)
 }
-

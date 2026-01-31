@@ -8,6 +8,8 @@ Description: A collection of RStudio addins that streamline common development
     and terminal integration. Features include path format conversion, batch
     file content copying, directory memory, and quick terminal access.
 License: MIT + file LICENSE
+url: https://github.com/Yousuf28/addinR
+BugReports:https://github.com/Yousuf28/addinR/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
