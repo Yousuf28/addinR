@@ -1,6 +1,6 @@
 Package: addinR
 Title: RStudio Addins for Enhanced Development Workflow
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Yousuf", "Ali", , "yousuf.pharma@gmail.com", role = c("aut", "cre"))
 Description: A collection of RStudio addins that streamline common development
